@@ -311,3 +311,29 @@ The root-level flag, *root.txt*, was subsequently retrieved.
 <img width="993" height="94" alt="{F96E22BF-6964-4567-AC58-73F1264077F8}" src="https://github.com/user-attachments/assets/ce6380fb-03d5-4368-8e41-52683176710b" />
 
 # 10. Findings and Risk Assessment
+
+The following findings summarize the security weaknesses identified during the assessment. Severity ratings are provisional qualitative assessments based on demonstrated impact in the lab environment; they are not formal CVSS scores.
+
+## F-01: IDOR in Password Reset Functionality
+
+**Suggested severity: High**
+
+**Description:** Th application allowed an authenticated user to reset another user's password by modifying the email address in the HTTP request.
+
+**Impact:** Unauthorized account modification and account takeover, including compromise of the administrator account.
+
+**Evidence:** A password reset request modified in Burp Suite successfully changed the password of a different account.
+
+**Recommendations:**
+
+* Derive the target account from the authenticated session wherever possible.
+
+* Enforce server-side authorization checks for every account modification.
+
+* Do not rely user-supplied email addresses or identifiers as proof of authorization.
+
+* Implement audit logging and alerting for password resets affecting privileged accounts.
+
+* Require appropriate verification for administrative password changes.
+
+## F-02:
