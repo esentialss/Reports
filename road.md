@@ -336,4 +336,62 @@ The following findings summarize the security weaknesses identified during the a
 
 * Require appropriate verification for administrative password changes.
 
-## F-02:
+## F-02: Unrestricted Upload of Executable PHP Files
+
+**Suggested severity: Critical**
+
+**Description:** The profile image upload functionality accepted PHP files that could be executed through a web-accessible path.
+
+**Impact:** Remote code execution in the web server's security context, resulting in initial host compromise.
+
+**Evidence:** An uploaded PHP reverse shell was triggered through an HTTP request and established a connection to the assessment machine.
+
+**Recommendations:**
+
+* Allow only explicitly approved image formats.
+
+* Validate file content using server-side MIME detection and file signature checks.
+
+* Generate server-side filenames and disregard user-supplied extensions.
+
+* Store uploaded files outside the web root wherever possible.
+
+* Disable script execution in upload directories.
+
+* Apply least-privilege permissions to the web server account.
+
+* Consider image re-encoding and content scanning before accepting uploaded files.
+
+## F-03: Exposure of Credentials in MongoDB Backup Data
+
+**Suggested severity: High**
+
+**Description:** The locally accessible MongoDB backup database contained recoverable credentials associated with the *webdeveloper* account.
+
+**Impact:** Credentials could be extracted following initial host compromise and reused to access SSH, facilitating lateral movement and subsequent privilege escalation.
+
+**Evidence:** Strings extracted from the BSON collection revealed credentials for the *webdeveloper* account.
+
+**Recommendations:**
+
+* Restrict database and backup access to authorized service accounts.
+
+* Avoid storing plaintext passwords; use appropriately salted, adaptive password hashing for application authentication.
+
+* Encrypt sensitive backups at rest and protect backup access with dedicated permissions.
+
+* Remove unnecessary or outdated sensitive data from backup collections.
+
+* Rotate any exposed credentials and assess whether they have been reused across services.
+
+* Separate database, application, and operating system privileges.
+
+## F-04: Root Privilege Escalation Through LD_PRELOAD
+
+**Suggested severity: Critical**
+
+**Description:** A user permitted to execute a privileged backup utility could exploit the program's execution environment to load a malicious shared library through LD_PRELOAD.
+
+**Impact:** Execution of attacker-controlled code with root privileges, resulting in complete host compromise.
+
+**Evidence:** The compiled shared library was supplied through LD_PRELOAD when invoking the backup utility, and the resulting security context was verified with *id*.
