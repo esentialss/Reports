@@ -262,3 +262,22 @@ This demonstrated that sensitive authentication data was recoverable from the da
 
 <img width="339" height="457" alt="{66B9F498-B65B-4259-8996-E09D18082E34}" src="https://github.com/user-attachments/assets/cc37c111-4a39-4177-8463-75eaad21220d" />
 
+# 9. Privilege Escalation
+
+## 9.1 SSH Access as webdeveloper
+
+The recovered credentials were used to authenticate to the target through SSH.
+
+**Command:** ssh webdeveloper@TARGET-IP
+
+After establishing the session, the account's available sudo privileges were examined.
+
+**Command:** sudo -l
+
+The output identified a privileged backup utility: /usr/bin/sky_backup_utility
+
+The relevant sudo configuration permitted the utility to be executed with elevated privileges. This configuration was investigated as a potential privilege escalation vector.
+
+<img width="1203" height="127" alt="{C24672C9-654D-49EC-8261-4EA44F587F2B}" src="https://github.com/user-
+attachments/assets/a5fe5659-f022-4ac2-b576-5f2cc3043151" />
+
