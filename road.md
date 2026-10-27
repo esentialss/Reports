@@ -279,3 +279,13 @@ The output identified a privileged backup utility: /usr/bin/sky_backup_utility
 The relevant sudo configuration permitted the utility to be executed with elevated privileges. This configuration was investigated as a potential privilege escalation vector.
 
 <img width="1203" height="127" alt="{C24672C9-654D-49EC-8261-4EA44F587F2B}" src="https://github.com/user-attachments/assets/82207cf4-ed1b-4c98-b890-ac4fead96746" />
+
+## 9.2 Exploiting LD_PRELOAD
+
+The LD_PRELOAD environment variable can instruct the dynamic linker to load a specified shared library before other libraries. If a privileged program permits this mechanism to be used with attacker-controlled code, it may allow execution with elevated privileges.
+
+To test this condition, a C source file named *exploit.c* was created in /tmp.
+
+**Source code:**
+
+<img width="190" height="202" alt="image" src="https://github.com/user-attachments/assets/80f15a08-6b06-4b98-b042-f7e5874108d9" />
