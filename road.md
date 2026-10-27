@@ -149,3 +149,40 @@ The */assets* directory did not reveal any useful information. Accessing */v2* r
 Attempts to authenticate using common default credentials were unsuccessful.
 
 ## 5.2 Account Registration and Password Reset Analysis
+
+The application provided a registration feature, allowing a new user account to be created. After authentication, the *ResetUser* functionality was identified in the application's navigation menu.
+
+Testing the password reset feature revealed that the corresponding HTTP request contained the target user's email address and the new password.
+
+The request was captured in Burp Suite and forwarded to Repeater for controlled testing.
+
+## 5.3 Insecure Direct Object Reference (IDOR)
+
+To determine whether the password reset function enforced appropriate authorization, a second test account was created.
+
+The captured request was modified by replacing the email address associated with the authenticated account with the email address of the second account.
+
+The modified request successfully reset the second account's password, despite the operation being initiated from the first account's authenticatd session.
+
+This demonstrated that the application relied on a client-controlled identifier without adequately verifying whether the authenticated user was authorized to modify the specified account.
+
+**Finding:** Insecure Direct Object Reference (IDOR) in the password reset functionality.
+
+**Security impact:**
+
+* Unauthorized password changes for other users.
+
+* Potential account takeover.
+
+* Escalation of impact if privileged accounts are affected.
+
+<img width="739" height="502" alt="{FD28883F-1B1B-446E-AD71-F54F0433C8F6}" src="https://github.com/user-attachments/assets/c23a534d-4823-4f81-8d34-205f061adedb" />
+
+# 6. Initial Access
+
+## 6.1 Administrator Account Compromise
+
+Further inspection of the application revealed a profile page accessible through the username menu in the upper-right corner of the interface.
+
+A note near the bottom of the profile page disclosed the administrator's email address: *admin@sky.thm*
+
