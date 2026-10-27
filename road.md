@@ -186,3 +186,32 @@ Further inspection of the application revealed a profile page accessible through
 
 A note near the bottom of the profile page disclosed the administrator's email address: *admin@sky.thm*
 
+The previously identified IDOR vulnerability was then used to reset the administrator's password.
+
+After changing the administrator's password, authentication with the administrator account was successful.
+
+This confirmed that the IDOR vulnerability could be used to compromise a privileged application account, rather than only a standard user account.
+
+## 6.2 Unrestricted PHP File Upload
+
+After gaining administrative access, the profile functionality was examined further. The application allowed users to change their profile pictures.
+
+Testing revealed that the upload mechanism accepted a PHP file rather than restricting uploads to legitimate image formats.
+
+This indicated insufficient server-side validation of uploaded files and insufficient protection against execution of uploaded content.
+
+A PHP reverse shell obtained from the following public repository was used for validation: https://github.com/pentestmonkey/php-reverse-shell
+
+The file was uploaded through the profile picture functionality.
+
+A Netcat listener was started on the attack machine: nc -lvnp 4444
+
+The uploaded PHP file was then accessed through the web application: http://TARGET-IP/v2/profileimages/php-reverse-shell.php
+
+The request triggered the reverse shell, establishing an interactive connection to the target.
+
+**Result:** Initial operating system access was obtained through the web server's execution context.
+
+**Finding:** Insufficient file upload validation combined with executable uploaded content.
+
+<img width="258" height="99" alt="image" src="https://github.com/user-attachments/assets/de8b2d63-838e-450d-833b-6094f360f9f7" />
