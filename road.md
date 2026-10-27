@@ -278,6 +278,4 @@ The output identified a privileged backup utility: /usr/bin/sky_backup_utility
 
 The relevant sudo configuration permitted the utility to be executed with elevated privileges. This configuration was investigated as a potential privilege escalation vector.
 
-<img width="1203" height="127" alt="{C24672C9-654D-49EC-8261-4EA44F587F2B}" src="https://github.com/user-
-attachments/assets/a5fe5659-f022-4ac2-b576-5f2cc3043151" />
-
+<img width="1203" height="127" alt="{C24672C9-654D-49EC-8261-4EA44F587F2B}" src="https://github.com/user-attachments/assets/82207cf4-ed1b-4c98-b890-ac4fead96746" />
