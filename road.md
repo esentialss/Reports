@@ -88,3 +88,64 @@ The assessment followed a structured penetration testing workflow consisting of 
 
 **Tool Used**
 
+* Nmap
+
+* Gobuster
+
+* Burp Suite
+
+* Netcat
+
+* MongoDB client utilities
+
+* SSH
+
+* GCC
+
+* Linux command-line utilities
+
+# 4. Reconnaissance and Service Enumeration
+
+## 4.1 Port Scanning
+
+An initial Nmap scan was conducted to identify open ports, service versions, and common service-related information.
+
+**Command:** nmap -sV -sC -p- TARGET-IP -oN road.txt
+
+**Results:**
+
+**Port** | **Service** | **Status**
+
+22/tcp | SSH | Open
+
+80/tcp | HTTP | Open
+
+The scan identified two externally accessible services: SSH and HTTP.
+
+SSH was initially deferred because valid credentials had not yet obtained. The HTTP service was selected as the primary attack surface for further investigation.
+
+**Evidence:** Nmap scan output.
+
+<img width="935" height="419" alt="{DFDF2551-702A-4442-8F1B-1E9704C3F22C}" src="https://github.com/user-attachments/assets/6b566123-6a32-4672-a30a-f12b88d5ad3a" />
+
+# 5. Web Application Enumeration
+
+## 5.1 Directory and Endpoint Discovery
+
+The web application was initially inspected manually, including its page source, cookies, network activity, and available functionality. This did not immediately reveal an exploitable weakness.
+
+Directory enumeration was subsequently performed using Gobuster. 
+
+**Command:** gobuster dir -u http://TARGET-IP -w WORDLIST
+
+**Discovered paths:**
+
+* /assets
+
+* /v2
+
+The */assets* directory did not reveal any useful information. Accessing */v2* redirected the browser to the administrative login page: http://TARGET-IP/v2/admin/login.html
+
+Attempts to authenticate using common default credentials were unsuccessful.
+
+## 5.2 Account Registration and Password Reset Analysis
