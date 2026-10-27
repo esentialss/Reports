@@ -395,3 +395,9 @@ The following findings summarize the security weaknesses identified during the a
 **Impact:** Execution of attacker-controlled code with root privileges, resulting in complete host compromise.
 
 **Evidence:** The compiled shared library was supplied through LD_PRELOAD when invoking the backup utility, and the resulting security context was verified with *id*.
+
+**Recommendations:**
+
+* Remove unnecessary sudo permissions for the backup utility.
+
+* Ensure privileged programs do not accept attacker-controlled environment variables or library paths. 
