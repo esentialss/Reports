@@ -215,3 +215,50 @@ The request triggered the reverse shell, establishing an interactive connection 
 **Finding:** Insufficient file upload validation combined with executable uploaded content.
 
 <img width="258" height="99" alt="image" src="https://github.com/user-attachments/assets/de8b2d63-838e-450d-833b-6094f360f9f7" />
+
+# 8. MongoDB Enumeration and Credential Discovery
+
+## 8.1 Identifying the Database Service
+
+Further investigation revealed a MongoDB instance accessible locally on the target host.
+
+A connection was established using: mongo "mongodb://127.0.0.1:27017"
+
+The available databases were enumerated using: show dbs
+
+**Observed databases:**
+
+* admin
+
+* backup
+
+* config
+
+*local
+
+The presence of a backup database warranted further investigation because it could contain sensitive application data. 
+
+## 8.2 Extracting User Data
+
+The *user* collection in the *backup* database was exported for analysis
+
+**Command:** mongodump --host 127.0.0.1 --port 27017 -db backup --collection user --out /.dump
+
+Readable strings were extracted from the resulting BSON data using: strings /dump/backup/user.bson
+
+The output contained credentials associated with the *webdeveloper* account.
+
+This demonstrated that sensitive authentication data was recoverable from the database backup accessible to the compromised environment.
+
+**Finding:** Exposure of user credentials through an accessible database backup.
+
+**Security impact:**
+
+* Recovery of credentials belonging to another system account.
+
+* Potential lateral movement from the web server context to SSH.
+
+* Increased risk of privilege escalation if the recovered account has additional privileges.
+
+<img width="339" height="457" alt="{66B9F498-B65B-4259-8996-E09D18082E34}" src="https://github.com/user-attachments/assets/cc37c111-4a39-4177-8463-75eaad21220d" />
+
