@@ -51,3 +51,40 @@ Application path | /v2/
 Database service | MongoDB on localhost
 
 Assessment environment | Authorized CTF lab
+
+## 2.2 Objectives
+
+The primary objectives were to:
+
+* Identify exposed network services and potential attack vectors.
+
+* Enumerate the web application and assess its authentication and authorization controls.
+
+* Identify and exploit vulnerabilities that could provide initial access.
+
+* Investigate local services and recover potentially exposed credentials.
+
+* Evaluate privilege escalation opportunities.
+
+* Demonstrate the impact of the identified weaknesses using proof-of-compromise evidence.
+
+# 3. Methodology 
+
+The assessment followed a structured penetration testing workflow consisting of the following phases:
+
+1. **Reconnaissance:** Identification of open ports and running services.
+
+2. **Enumeration:** Discovery of web application endpoints and analysis of HTTP requests.
+
+3. **Exploitation:** Abuse of the password reset authorization flaw and file upload functionality.
+
+4. **Post-exploitation:** Enumeration of the compromised host and collection of the user flag.
+
+5. **Credential discovery:** Examination of locally accessible MongoDB data.
+
+6. **Privilege escalation:** Abuse of the privileged backup utility to obtain root access.
+
+7. **Verification:** Confirmation of elevated privileges and retrieval of the root flag.
+
+**Tool Used**
+
