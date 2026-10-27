@@ -289,3 +289,25 @@ To test this condition, a C source file named *exploit.c* was created in /tmp.
 **Source code:**
 
 <img width="190" height="202" alt="image" src="https://github.com/user-attachments/assets/80f15a08-6b06-4b98-b042-f7e5874108d9" />
+
+The source code was compiled into a shared library: gcc -fPIC -shared -o /tmp/exploit.so /tmp/exploit.c -nostartfiles
+
+The backup utility was then executed with the compiled library specified through LD_PRELOAD: sudo LD_PRELOAD=/tmp/exploit.so /usr/bin/sky_backup_utility
+
+The library was designed to execute code in the context of th privileged process.
+
+## 9.3 Verification of Root Access
+
+Following execution, the current security context was checked using: id
+
+The resulting identity information confirmed successful escalation to root privileges.
+
+The root-level flag, *root.txt*, was subsequently retrieved.
+
+**Result:** Full privilege escalation from the *webdeveloper* account to root was achieved.
+
+**Finding:** Privilege escalation through an unsafe privileged execution path involving LD_PRELOAD.
+
+<img width="993" height="94" alt="{F96E22BF-6964-4567-AC58-73F1264077F8}" src="https://github.com/user-attachments/assets/ce6380fb-03d5-4368-8e41-52683176710b" />
+
+# 10. Findings and Risk Assessment
