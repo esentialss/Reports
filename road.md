@@ -401,3 +401,43 @@ The following findings summarize the security weaknesses identified during the a
 * Remove unnecessary sudo permissions for the backup utility.
 
 * Ensure privileged programs do not accept attacker-controlled environment variables or library paths. 
+
+* Review sudoers configuration, including environment preservation and permitted command arguments.
+
+* Use a restricted, explicitly defined execution environment for privileged backup operations.
+
+* Avoid invoking external commands or loading dynamic libraries from writable locations in privileged programs.
+
+* Audit custom backup utilities for unsafe environment handling and excessive privileges.
+
+# 11. Attack Chain Summary
+
+The successful attack can be summarized as follows:
+
+1. **Reconnaissance:** Identified SSH and HTTP as externally accessible services.
+
+2. **Web enumeration:** Discovered the application under */v2/* and its account management functionality.
+
+3. **Account takeover:** Exploited the IDOR vulnerability to reset the administrator's password.
+
+4. **Initial access:** Uploaded and executed a PHP reverse shell through the profile image functionality.
+
+5. **Credential discovery:** Extracted *webdeveloper* credentials from the MongoDB backup database.
+
+6. **Lateral movement:** Authenticated to the host through SSH as *webdeveloper*.
+
+7. **Privilege escalation:** Abused the privileged backup utility and LD_PRELOAD to obtain root access.
+
+8. **Objective completion:** Retrieved both the user and root flags.
+
+# 12. Conclusion 
+
+The assessment demonstrated that multiple security weaknesses in the Road environment could be chained to achieve complete system compomise.
+
+The initial application-level authorization flaw enabled administrator account takeover. Insufficient upload validation then provided an avenue for remote code execution on the host. Exposed credentials in the MongoDB backup facilitated access through SSH, while unsafe privileged execution allowed escalation to root.
+
+The most significant lesson from this assessment is that application security, credential management, and operating system hardening must be addressed together. A single vulnerability may provide limited access, but several weaknesses across different layers can create a direct path to full compromise.
+
+The recommended remediation priorities are to correct the password reset authorization flaw, prevent execution of uploaded files, secure database backup data, and remove the unsafe privilege escalation path.
+
+**Final result**: Successful compromise of the application and underlying Linux host, including verified root-level access, within the authorized TryHackMe lab environment.
