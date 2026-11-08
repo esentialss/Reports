@@ -234,7 +234,7 @@ The available databases were enumerated using: show dbs
 
 * config
 
-*local
+* local
 
 The presence of a backup database warranted further investigation because it could contain sensitive application data. 
 
